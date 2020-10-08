@@ -1,7 +1,7 @@
 #!/bin/bash
 export ACCOUNT_NAME=${ACCOUNT_NAME:={{cookiecutter.aws_account_name}}}
 export SOLUTION_NAME={{cookiecutter.project_name}}
-export DIST_OUTPUT_BUCKET=${DIST_OUTPUT_BUCKET:={{cookiecutter.author_prefix}}-solutions-{{cookiecutter.aws_region}}}
+export DIST_OUTPUT_BUCKET=${DIST_OUTPUT_BUCKET:={{cookiecutter.author_prefix}}-solutions}
 export VERSION=1.0.0
 export AWS_REGION=${AWS_REGION:={{cookiecutter.aws_region}}}
 echo $SOLUTION_NAME 
