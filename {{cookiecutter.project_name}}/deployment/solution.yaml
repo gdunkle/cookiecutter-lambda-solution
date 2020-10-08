@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: {{cookiecutter.project_name}} - {{cookiecutter.project_short_description}}
+
+Parameters:
+
+  Default:
+    Description: Default parameter
+    Type: String
+    Default: Default
+
+Mappings:
+
+  MetricsMap:
+    Send-Data:
+      SendAnonymousData: "Yes" # change to 'No' if needed
+
+  SourceCode:
+    General:
+      S3Bucket: %%BUCKET_NAME%%
+      KeyPrefix: "%%SOLUTION_NAME%%/%%VERSION%%"
+
+Resources:
+
+  DefaultFunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Path: /
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+#      Policies:
+#        - PolicyName: !Sub DefaultFunction-Policy-${AWS::StackName}-${AWS::Region}
+#          PolicyDocument:
+#            Version: '2012-10-17'
+#            Statement:
+#              - Effect: Allow
+#                Action:
+#                  - logs:CreateLogGroup
+#                  - logs:CreateLogStream
+#                  - logs:PutLogEvents
+#                Resource:
+#                  - !Sub arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*
+
+  DefaultFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Description: Place holder for lambda function
+      Environment:
+        Variables:
+          LOG_LEVEL: 'DEBUG' # change to WARN, ERROR or DEBUG as needed
+      Handler: default_function.lambda_handler
+      Role: !GetAtt DefaultFunctionRole.Arn
+      Code:
+        S3Bucket: !Join ["-", [!FindInMap ["SourceCode", "General", "S3Bucket"], Ref: "AWS::Region"]]
+        S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%ZIP_FILE_NAME%%"]]
+      Runtime: python3.8
+      Layers:
+        - !Ref DefaultLayer
+      Timeout: 30
+  DefaultLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - python3.8
+      Content:
+        S3Bucket: !Join ["-", [!FindInMap ["SourceCode", "General", "S3Bucket"], Ref: "AWS::Region"]]
+        S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%LAYER_FILE_NAME%%"]]
+      Description: Layer for {{cookiecutter.project_name}}
+      LayerName: {{cookiecutter.project_name}}-layer
+            

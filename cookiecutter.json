@@ -1,0 +1,12 @@
+{
+
+  "id": "aws000",
+  "project_name": "{{ cookiecutter.id.lower().replace(' ', '-') }}",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_short_description": "Allow myself, to introduce myself",
+  "author_name": "",
+  "author_email": "",
+  "author_prefix": "{{ cookiecutter.author_email.lower().split('@')[0] }}",
+  "aws_account_name": "",
+  "aws_region": "us-east-2"
+}
