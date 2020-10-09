@@ -80,15 +80,4 @@ Resources:
         S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%LAYER_FILE_NAME%%"]]
       Description: Layer for {{cookiecutter.project_name}}
       LayerName: {{cookiecutter.project_name}}-layer
-  DefaultVersion:
-    Type: AWS::Lambda::LayerVersion
-    Properties:
-      CompatibleRuntimes:
-        - python3.8
-      Content:
-        Content:
-          S3Bucket: !Join ["-", [!FindInMap ["SourceCode", "General", "S3Bucket"], Ref: "AWS::Region"]]
-          S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%LAYER_FILE_NAME%%"]]
-      Description:  Layer for {{cookiecutter.project_name}}
-      LayerName: !Ref DefaultLayer
             
