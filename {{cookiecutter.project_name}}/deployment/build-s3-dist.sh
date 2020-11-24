@@ -85,7 +85,7 @@ echo "[Build] {{cookiecutter.project_name}} Function"
 echo "------------------------------------------------------------------------------"
 cd $source_dir/{{cookiecutter.project_name}}
 
-zip $build_dist_dir/$ZIP_FILE_NAME ./*.py
+zip -r $build_dist_dir/$ZIP_FILE_NAME .
 
 
 echo "------------------------------------------------------------------------------"
