@@ -59,7 +59,7 @@ Resources:
       Handler: default_function.lambda_handler
       Role: !GetAtt DefaultFunctionRole.Arn
       Code:
-        S3Bucket: !Join ["-", [!FindInMap ["SourceCode", "General", "S3Bucket"], Ref: "AWS::Region"]]
+        S3Bucket: !FindInMap ["SourceCode", "General", "S3Bucket"]
         S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%ZIP_FILE_NAME%%"]]
       Runtime: python3.8
       Layers:
@@ -76,7 +76,7 @@ Resources:
       CompatibleRuntimes:
         - python3.8
       Content:
-        S3Bucket: !Join ["-", [!FindInMap ["SourceCode", "General", "S3Bucket"], Ref: "AWS::Region"]]
+        S3Bucket: !FindInMap ["SourceCode", "General", "S3Bucket"]
         S3Key: !Join ["/", [!FindInMap ["SourceCode", "General", "KeyPrefix"],  "%%LAYER_FILE_NAME%%"]]
       Description: Layer for {{cookiecutter.project_name}}
       LayerName: {{cookiecutter.project_name}}-layer
