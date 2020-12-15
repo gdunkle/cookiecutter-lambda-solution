@@ -56,7 +56,7 @@ Resources:
       Environment:
         Variables:
           LOG_LEVEL: 'DEBUG' # change to WARN, ERROR or DEBUG as needed
-      Handler: default_function.lambda_handler
+      Handler: {{cookiecutter.project_slug}}.index.lambda_handler
       Role: !GetAtt DefaultFunctionRole.Arn
       Code:
         S3Bucket: !FindInMap ["SourceCode", "General", "S3Bucket"]
