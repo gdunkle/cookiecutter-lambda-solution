@@ -81,18 +81,18 @@ echo "sed -i '' -e $replace $template_dist_dir/*.template"
 sed -i '' -e $replace $template_dist_dir/*.template
 
 echo "------------------------------------------------------------------------------"
-echo "[Build] {{cookiecutter.project_name}} Function"
+echo "[Build] {{cookiecutter.project_slug}} Function"
 echo "------------------------------------------------------------------------------"
-cd $source_dir/{{cookiecutter.project_name}}
+cd $source_dir
 
-zip -r $build_dist_dir/$ZIP_FILE_NAME .
+zip -r $build_dist_dir/$ZIP_FILE_NAME ./{{cookiecutter.project_slug}}/*
 
 
 echo "------------------------------------------------------------------------------"
 echo "[Build] {{cookiecutter.project_name}} Layer"
 echo "------------------------------------------------------------------------------"
 
-DEPENDENCY_EXCLUDE_LIST=${OVERRIDE_DEFAULT_DEPENDENCY_EXCLUDE_LIST:=["aws_cdk","boto3","dist-info","pip","botocore","jsii","docutils","pkg_resources","setuptools","test","tests","s3transfer"]}
+DEPENDENCY_EXCLUDE_LIST=${OVERRIDE_DEFAULT_DEPENDENCY_EXCLUDE_LIST:=["aws_cdk","{{cookiecutter.project_slug}}","boto3","dist-info","pip","botocore","jsii","docutils","pkg_resources","setuptools","test","tests","s3transfer"]}
 echo "Excluding dependencies: $DEPENDENCY_EXCLUDE_LIST"
 dependencies=$(jq -r --arg blacklist $DEPENDENCY_EXCLUDE_LIST  ' .default | to_entries[] | .key | select(. as $in | $blacklist | index($in) | not) '  $project_dir/Pipfile.lock)
 rm -Rf $build_dist_dir/python

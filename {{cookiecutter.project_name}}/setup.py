@@ -10,6 +10,8 @@ setup(
     author='{{cookiecutter.author_name}}',
     license='ASL',
     zip_safe=False,
-    packages=['{{cookiecutter.project_slug}}'],
-    include_package_data=False
+    include_package_data=True,
+    package_dir={"": "source"},
+    packages=find_packages("source"),
+    test_suite='tests'
 )
